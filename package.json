@@ -1,0 +1,50 @@
+{
+  "name": "mockzilla",
+  "version": "0.5.0",
+  "description": "A mocking toolkit leveraging the power of TypeScript to enhance your jest experience.",
+  "keywords": [
+    "TypeScript",
+    "mock",
+    "deep-mock",
+    "jest"
+  ],
+  "license": "ZLib",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "lint": "npm run lint:es && npm run lint:package && npm run lint:style",
+    "lint:es": "eslint src/**/*.ts --ext .ts --ignore-path .prettierignore",
+    "lint:es:fix": "npm run lint:es -- --fix",
+    "lint:fix": "npm run lint:es:fix && npm run lint:package:fix && npm run lint:style:fix",
+    "lint:package": "sort-package-json --check",
+    "lint:package:fix": "sort-package-json",
+    "lint:style": "npm run lint:style:base -- --check",
+    "lint:style:base": "prettier src/**/*.{ts,js,json} ./*.{ts,js,json}",
+    "lint:style:fix": "npm run lint:style:base -- --write"
+  },
+  "devDependencies": {
+    "@lusito/eslint-config": "^1.0.4",
+    "@lusito/prettier-config": "^1.0.0",
+    "@types/node": "^13.13.4",
+    "chalk": "^4.0.0",
+    "expect": "^25.4.0",
+    "jest-diff": "^25.4.0",
+    "jest-message-util": "^25.4.0",
+    "jest-validate": "^25.4.0",
+    "rimraf": "^3.0.2",
+    "sort-package-json": "^1.42.1",
+    "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "chalk": "^4.0.0",
+    "expect": "^25.4.0",
+    "jest-diff": "^25.4.0",
+    "jest-message-util": "^25.4.0",
+    "jest-validate": "^25.4.0"
+  }
+}
