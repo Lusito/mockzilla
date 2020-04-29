@@ -74,13 +74,6 @@ Use `autoCleanup=true` if you create the mock instance within your `test()` or `
 2. A `MockzillaDeep<T>` mock builder. This is used to set up your mocks during tests.
 3. A `MockzillaNode`, which is for some rare situations where you need more control. In most cases you can ignore this.
 
-
-To perform the autoCleanup, you'll need to setup an afterEach:
-
-```TypeScript
-afterEach(() => performAutoCleanup());
-```
-
 #### Mock Assimilation
 
 **Problem:**
@@ -131,7 +124,6 @@ After you call `mockTime()`, `setTimeout()` and `clearTimeout()` will be replace
 ```TypeScript
 // somewhere in setupTests.ts:
 mockTime();
-afterEach(() => verifyAndDisableTimeouts());
 
 // Somewhere in a test:
 test("should run callback delayed", () => {

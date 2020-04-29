@@ -103,11 +103,11 @@ export function deepMock<T>(name: string, autoCleanup = true) {
     return [proxy, mock, rootNode] as const;
 }
 
-export function performAutoCleanup() {
+afterEach(() => {
     try {
         for (const node of autoCleanupNodes) node.verify();
     } finally {
         for (const node of autoCleanupNodes) node.disable();
         autoCleanupNodes.length = 0;
     }
-}
+});

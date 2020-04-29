@@ -36,16 +36,16 @@ export function advanceTime(ms: number) {
 }
 
 export function mockTime() {
-    (global as any).setTimeout = setTimeout;
-    (global as any).clearTimeout = clearTimeout;
-}
+    global.setTimeout = setTimeout as any;
+    global.clearTimeout = clearTimeout as any;
 
-export function verifyAndDisableTimeouts() {
-    try {
-        if (timeouts.length !== 0)
-            throw new MockzillaError(`${timeouts.length} timeouts still active after test has finished`, true);
-    } finally {
-        timeouts = [];
-        currentTime = 0;
-    }
+    afterEach(() => {
+        try {
+            if (timeouts.length !== 0)
+                throw new MockzillaError(`${timeouts.length} timeouts still active after test has finished`, true);
+        } finally {
+            timeouts = [];
+            currentTime = 0;
+        }
+    });
 }
