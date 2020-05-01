@@ -39,6 +39,7 @@ links:
       url: https://github.com/lusito/mockzilla/issues?state=open
     - title: NPM
       icon: npm
+      brand: true
       url: https://www.npmjs.com/package/mockzilla
 
 ui:
