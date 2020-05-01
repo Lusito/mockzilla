@@ -19,13 +19,13 @@ Aside from mockzilla itself, you'll only need [jest](https://jestjs.io/).
 
 ### NPM
 
-Add this line to your Jekyll site's Gemfile:
+Install via npm:
 
 ```
 npm i -D mockzilla
 ```
 
-### Getting started
+### Getting Started
 
 To get started, follow the links in the features list on the right.
 
@@ -35,14 +35,12 @@ To get started, follow the links in the features list on the right.
 ## Features
 {:.mt-lg-0}
 
-### Features
-
 - [Deep Mocking](deep-mock.md)
 - [Mock Assimilation](mock-assimilate.md) (replace methods of an existing object with mocks)
 - [Time Manipulation](mock-time.md)
 - [Property protection & whitelisting](utils.md)
 
-### Why use mockzilla
+### Why Use mockzilla?
 
 - Integrates with [jest](https://jestjs.io/)
 - Typesafety and code-completion out of the box.
