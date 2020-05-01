@@ -42,11 +42,11 @@ export type MockzillaProperty<T> = {
 export type MockzillaDeep<T> = { [TKey in keyof T]: MockzillaDeep<T[TKey]> } &
     MockzillaProperty<T> &
     (T extends (...args: any[]) => any
-        ? { spy: (fn: T) => void; expect: ((...args: Parameters<T>) => MockzillaFunction<T>) & MockzillaFunction<T> }
+        ? { spy: (fn: T) => MockzillaTimes; expect: ((...args: Parameters<T>) => MockzillaFunction<T>) & MockzillaFunction<T> }
         : {});
 
 export type MockzillaAssimilated<T> = T extends (...args: any[]) => any
-    ? { spy: (fn: T) => void; expect: ((...args: Parameters<T>) => MockzillaFunction<T>) & MockzillaFunction<T> }
+    ? { spy: (fn: T) => MockzillaTimes; expect: ((...args: Parameters<T>) => MockzillaFunction<T>) & MockzillaFunction<T> }
     : unknown;
 
 export type MockzillaAssimilatedMap<T> = { [TKey in keyof T]: MockzillaAssimilated<T[TKey]> };
