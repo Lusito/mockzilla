@@ -9,7 +9,7 @@ You are using setTimeout and clearTimeout in your code and don't know how to tes
 
 `run-delayed.ts`
 
-```TypeScript
+```javascript
 function runDelayed(callback: (foo: string) => void, delay: number) {
     setTimeout(() => {
         callback("bar");
@@ -27,7 +27,7 @@ Time mocks are not enabled by default. You'll need to enable them. first:
 
 `setupTests.ts`
 
-```TypeScript
+```javascript
 import { mockTime } from "mockzilla";
 
 mockTime();
@@ -43,7 +43,7 @@ But now you can manually manipulate time using `advanceTime(ms)`:
 
 `run-delayed.spec.ts`
 
-```TypeScript
+```javascript
 test("should run callback delayed", () => {
     const callback = jest.fn();
     runDelayed(callback, 1000);
