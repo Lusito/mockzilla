@@ -12,10 +12,10 @@ This is a **Work In Progress**! The API might change before version 1.0 is relea
 
 #### Features
 
-- Deep Mocking
-- Mock Assimilation (replace methods of an existing object with mocks)
-- Time manipulation
-- Property protection & whitelisting
+- [Deep Mocking](https://lusito.github.io/mockzilla/deep-mock.html)
+- [Mock Assimilation](https://lusito.github.io/mockzilla/mock-assimilate.html) (replace methods of an existing object with mocks)
+- [Time Manipulation](https://lusito.github.io/mockzilla/mock-time.html)
+- [Property protection & whitelisting](https://lusito.github.io/mockzilla/utils.html)
 
 #### Why use mockzilla
 
@@ -24,139 +24,48 @@ This is a **Work In Progress**! The API might change before version 1.0 is relea
 - Deadsimple to use
 - Liberal license: [zlib/libpng](https://github.com/Lusito/mockzilla/blob/master/LICENSE)
 
-### Installation via NPM
+### Getting Started
 
-```npm i -D mockzilla```
+Check out the [documentation page](https://lusito.github.io/mockzilla/) for examples
 
-### Examples
+### Example
 
-The following examples are only basic examples. Try it for yourself, there is more functionality, that I've not yet documented.
-
-#### Deep Mocking
-
-**Problem:**
-
-You have a deeply nested API, which requires you to call it like this:
+This is an example of how a deep mock with mockzilla looks like:
 
 ```TypeScript
-// Web-Extension example 1
-browser.webRequest.onBeforeRedirect.addListener(callback, filter);
-// Web-Extension example 2
-const activeTabs = await browser.tabs.query({ active: true });
-...
-```
+import type { Browser } from "webextension-polyfill-ts";
+import { deepMock, MockzillaDeep } from "mockzilla";
 
-**Solution:**
+const [browser, mockBrowser, mockBrowserNode] = deepMock<Browser>("browser", false);
 
-By using `deepMock<T>(name, autoCleanup=true)` you can easily create mocks for the above scenario. After you've set it up (see further below), you can mock the above calls like this:
+jest.mock("webextension-polyfill-ts", () => ({ browser }));
 
-```TypeScript
-// Web-Extension example 1
-mockBrowser.webRequest.onBeforeRedirect.addListener.expect(expect.anything(), filter);
-// Web-Extension example 2
-mockBrowser.tabs.query.expect({ active: true }).andResolve([activeTab]);
-```
+describe("Web-Extension Helpers", () => {
+    beforeEach(() => mockBrowserNode.enable());
 
-**Details:**
+    afterEach(() => mockBrowserNode.verifyAndDisable());
 
-`deepMock` expects two parameters:
-- A `name` used for error messages
-- An optional `autoCleanup` boolean (defaults to true).
+    describe("getActiveTabs()", () => {
+        it("should return active tabs", async () => {
+            const tabs: any[] = [{id: 1}, {id: 2}];
+            mockBrowser.tabs.query.expect({ active: true }).andResolve(tabs);
 
-Use `autoCleanup=true` if you create the mock instance within your `test()` or `it()` block to automatically verify the mocks and disable them after the test has finished. Since this is a very common use-case, it's the default behavior.
+            expect(await getActiveTabs()).toEqual(tabs);
+        });
+    });
 
-- Verify means: If your mock expectation has not been fullfilled, the test will fail.
-- Disabling means: An exception will be thrown if the mocked instance (proxy) has been used after disabling.
+    describe("onBeforeRedirect()", () => {
+        it("should register a listener and return a handle to remove the listener again", () => {
+            const listener = jest.fn();
+            mockBrowser.webRequest.onBeforeRedirect.addListener.expect(listener, expect.anything());
 
-`deepMock` returns an array with 3 items in it:
+            const removeListener = onBeforeRedirect(listener);
 
-1. The proxy instance (i.e. the object your logic will use).
-2. A `MockzillaDeep<T>` mock builder. This is used to set up your mocks during tests.
-3. A `MockzillaNode`, which is for some rare situations where you need more control. In most cases you can ignore this.
-
-#### Mock Assimilation
-
-**Problem:**
-
-You want to ensure internal methods of an object get called as expected and have no other side-effects:
-
-```TypeScript
-expect(myInstance.run()).toBe(true); // run calls runA, runB and runC
-```
-
-**Solution:**
-
-You can use `mockAssimilate(instance, name, { mock: [], whitelist?: []}` you can assimilate your instance by overriding methods with mockable functions. You can use whitelist to ensure no property gets touched without you knowing.
-
-```TypeScript
-const mock = mockAssimilate(myInstance, "myInstance", {
-    mock: ["runA", "runB", "runC"],
-    whitelist: ["run", "someProp"],
-    // The names listed in `mock` are automatically whitelisted.
-    // If whitelist is not specified, other properties may be accessed.
+            mockBrowser.webRequest.onBeforeRedirect.removeListener.expect(listener);
+            removeListener();
+        });
+    });
 });
-// All of these are type-safe, i.e. you get auto-completion and compile-time validation on parameters and return types.
-mock.runA.expect(expect.anything(), true).andReturn(true);
-mock.runB.expect(expect.anything(), "foo").andReturn("bar");
-mock.runC.expect("bar", expect.anything()).andReturn("done");
-expect(myInstance.run()).toBe(true);
-```
-if the test passes, we know, that `runA/B/C` have been called and that nothing other than `run` and `someProp` have been accessed (get, set or called) during the test.
-
-#### Time
-
-**Problem:**
-
-You are using setTimeout and clearTimeout in your code and don't know how to test that without slowing down the code:
-
-```TypeScript
-function runDelayed(callback: (foo: string) => void, delay: number) {
-    setTimeout(() => {
-        callback("bar");
-    }, delay);
-}
-```
-
-**Solution:**
-
-After you call `mockTime()`, `setTimeout()` and `clearTimeout()` will be replaced, so that you can manually manipulate time using `advanceTime(ms)`:
-
-```TypeScript
-// somewhere in setupTests.ts:
-mockTime();
-
-// Somewhere in a test:
-test("should run callback delayed", () => {
-    const callback = jest.fn();
-    runDelayed(callback, 1000);
-
-    advanceTime(999);
-    expect(callback).not.toHaveBeenCalled();
-
-    advanceTime(1); // current time (999) += 1ms
-    expect(callback).toHaveBeenCalled();
-});
-
-```
-
-`verifyAndDisableTimeouts` ensures, that no timeout is leftover. I.e. if the timeout never got executed, the test will fail.
-
-#### Utilities
-
-`denyPropertyAccess<T>(instance: T, property: string)`
-
-Use this if you want to verify, that a specified property will not get accessed during the test:
-
-```TypeScript
-denyPropertyAccess(myInstance, "modifiedDate");
-```
-
-`whitelistPropertyAccess(instance: any, ...whitelist: string[])`
-
-This can be used to call denyPropertyAccess on all properties except the ones in the whitelist:
-
-```TypeScript
-whitelistPropertyAccess(myInstance, "run", "tasks", "showNotification");
 ```
 
 ### Report issues

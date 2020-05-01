@@ -44,6 +44,8 @@ But now you can manually manipulate time using `advanceTime(ms)`:
 `run-delayed.spec.ts`
 
 ```javascript
+import { advanceTime } from "mockzilla";
+
 test("should run callback delayed", () => {
     const callback = jest.fn();
     runDelayed(callback, 1000);

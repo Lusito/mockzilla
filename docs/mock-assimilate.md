@@ -44,6 +44,8 @@ You can use `mockAssimilate(instance, name, { mock: [], whitelist?: []}` to assi
 `my-class.spec.ts`
 
 ```javascript
+import { mockAssimilate } from "mockzilla";
+
 describe("MyClass", () => {
     describe("#run()", () => {
         it("should return false with param1=false and param2='foo'", () => {
