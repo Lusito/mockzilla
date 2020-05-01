@@ -8,6 +8,7 @@ title: Time Mocking
 You are using setTimeout and clearTimeout in your code and don't know how to test it without slowing down the code:
 
 `run-delayed.ts`
+
 ```TypeScript
 function runDelayed(callback: (foo: string) => void, delay: number) {
     setTimeout(() => {
@@ -25,6 +26,7 @@ We can replace `setTimeout()` and `clearTimeout()` to help test this code.
 Time mocks are not enabled by default. You'll need to enable them. first:
 
 `setupTests.ts`
+
 ```TypeScript
 import { mockTime } from "mockzilla";
 
@@ -40,6 +42,7 @@ When you've set up time mocking as seen above, time will be frozen in regards to
 But now you can manually manipulate time using `advanceTime(ms)`:
 
 `run-delayed.spec.ts`
+
 ```TypeScript
 test("should run callback delayed", () => {
     const callback = jest.fn();
