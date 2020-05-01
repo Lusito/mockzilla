@@ -1,5 +1,6 @@
 # name of the software
 name: mockzilla
+remote_theme: allejo/jekyll-docs-theme@v1.0.0-beta.4
 
 project:
   version: 0.6.0
