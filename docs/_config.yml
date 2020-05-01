@@ -3,7 +3,7 @@ name: mockzilla
 remote_theme: allejo/jekyll-docs-theme@v1.0.0-beta.4
 
 project:
-  version: 0.6.0
+  version: 0.6.1
   download_url: https://www.npmjs.com/package/mockzilla
   download_text: Install on NPM
 
