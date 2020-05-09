@@ -1,7 +1,4 @@
----
-layout: page
-title: Expectations
----
+# Expectations
 
 When you are mocking a method, you have two ways to add expectations:
 - `expect()` allows you to be specific about an expected call

@@ -1,7 +1,4 @@
----
-layout: page
-title: Mock Assimilation
----
+# Mock Assimilation
 
 ## Problem
 
@@ -78,7 +75,5 @@ describe("MyClass", () => {
     });
 });
 ```
-
-## Further Reading
 
 If you want to know more about what you can do with these expect calls, check out [Expectations](expectations.md).

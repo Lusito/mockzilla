@@ -1,13 +1,10 @@
----
-layout: page
-title: Utitilies
----
+# Utilities
 
 ## Problem
 
 You want to ensure your code has no side-effects.
 
-## Solution
+## Solution 1: Deny Property Access
 
 `denyPropertyAccess<T>(instance: T, property: string)`
 
@@ -25,6 +22,8 @@ test("modifiedDate will not be touched", () => {
     // If we got here, it means modifiedDate was not touched!
 });
 ```
+
+## Solution 2: Whitelist Property Access
 
 `whitelistPropertyAccess(instance: any, ...whitelist: string[])`
 

@@ -1,7 +1,4 @@
----
-layout: page
-title: Time Mocking
----
+# Time Mocking
 
 ## Problem
 

@@ -1,0 +1,20 @@
+title: mockzilla
+description: A mocking toolkit leveraging the power of TypeScript to enhance your jest experience.
+base: '/mockzilla/'
+themeConfig:
+  nav:
+  - link: 'https://github.com/lusito/mockzilla'
+    text: Github
+  - link: 'https://www.npmjs.com/package/mockzilla'
+    text: NPM
+  sidebar:
+  - '/setup'
+  - '/deep-mock'
+  - '/mock-assimilate'
+  - '/expectations'
+  - '/utils'
+  - '/mock-time'
+  displayAllHeaders: true
+plugins:
+- fulltext-search
+  

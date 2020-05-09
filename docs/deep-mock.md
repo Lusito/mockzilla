@@ -1,7 +1,4 @@
----
-layout: page
-title: Deep Mocking
----
+# Deep Mocking
 
 ## Problem
 
@@ -65,7 +62,9 @@ describe("Web-Extension Helpers", () => {
 
 ## More Details
 
-`deepMock` expects two parameters:
+`deepMock<T>(...)` expects a type parameter specifying the interface to be mocked.
+
+`deepMock<T>(...)` expects two parameters:
 - A `name` used for error messages
 - An optional `autoCleanup` boolean (defaults to true).
 
@@ -74,7 +73,7 @@ Use `autoCleanup=true` if you create the mock instance within your `test()`, `it
 - Verify means: If your mock expectation has not been fullfilled, the test will fail.
 - Disabling means: An exception will be thrown if the mocked instance (proxy) has been used after disabling.
 
-`deepMock` returns an array with 3 items in it:
+`deepMock<T>(...)` returns an array with 3 items in it:
 
 1. The proxy instance (i.e. the object your logic will use).
 2. A `MockzillaDeep<T>` mock builder. This is used to set up your mocks during tests.
@@ -82,9 +81,9 @@ Use `autoCleanup=true` if you create the mock instance within your `test()`, `it
 
 If you want to know more about what you can do with the expect calls, check out [Expectations](expectations.md).
 
-## MozillaDeep<T>
+## MozillaDeep
 
-The mock builder auto-completes the public properties of the interface you supplied via `<T>`. This works deeply.
+The mock builder auto-completes the public properties of the interface you supplied via the type parameter of `deepMock<T>(...)`. This works deeply.
 
 Additionally, each nested node has the following methods available:
 
