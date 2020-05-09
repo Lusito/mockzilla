@@ -6,7 +6,7 @@ actionText: Get Started →
 actionLink: /setup
 features:
 - title: Painless
-  details: Writing mocks should be simple and fun. With mockzilla you can skip writing manual mocks of deeply nested APIS and focus on writing tests.
+  details: Writing mocks should be simple and fun. With mockzilla you can skip writing manual mocks of deeply nested APIs and focus on writing tests.
 - title: Typesafe
   details: You use TypeScript to have code-completion and type-safety? Great! mockzilla uses the types you have to ensure a pleasant experience!
 - title: Good Errors
