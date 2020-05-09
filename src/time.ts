@@ -39,13 +39,13 @@ export function mockTime() {
     global.setTimeout = setTimeout as any;
     global.clearTimeout = clearTimeout as any;
 
+    beforeEach(() => {
+        timeouts = [];
+        currentTime = 0;
+    });
+
     afterEach(() => {
-        try {
-            if (timeouts.length !== 0)
-                throw new MockzillaError(`${timeouts.length} timeouts still active after test has finished`, true);
-        } finally {
-            timeouts = [];
-            currentTime = 0;
-        }
+        if (timeouts.length !== 0)
+            throw new MockzillaError(`${timeouts.length} timeouts still active after test has finished`, true);
     });
 }

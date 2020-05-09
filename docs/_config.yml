@@ -1,6 +1,4 @@
-# name of the software
 name: mockzilla
-remote_theme: allejo/jekyll-docs-theme@v1.0.0-beta.4
 
 project:
   version: 0.6.1
@@ -10,9 +8,6 @@ project:
 license:
   software: zlib/libpng License
   software_url: https://opensource.org/licenses/Zlib
-
-  # docs: CC BY 3.0
-  # docs_url: https://creativecommons.org/licenses/by/3.0/
 
 links:
   header:
@@ -81,3 +76,4 @@ social:
 
 # Build settings
 markdown: kramdown
+remote_theme: allejo/jekyll-docs-theme@v1.0.0-beta.4
