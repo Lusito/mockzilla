@@ -6,7 +6,7 @@ You want to ensure internal methods of an object get called as expected and have
 
 `my-class.ts`
 
-```javascript
+```TypeScript
 class MyClass {
     private someProp = { hip: "hop" };
 
@@ -40,7 +40,7 @@ You can use `mockAssimilate(instance, name, { mock: [], whitelist?: []}` to assi
 
 `my-class.spec.ts`
 
-```javascript
+```TypeScript
 import { mockAssimilate } from "mockzilla";
 
 describe("MyClass", () => {

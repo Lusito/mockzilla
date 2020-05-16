@@ -12,13 +12,13 @@ When you are mocking a method, you have two ways to add expectations:
 
 Expect has the following signature:
 
-```javascript
+```TypeScript
 expect: ((...args: Parameters<T>) => MockzillaFunction<T>) & MockzillaFunction<T>;
 ```
 
 Let's see a few example uses:
 
-```javascript
+```TypeScript
 test("", () => {
     const [worker, mockWorker] = deepMock<MyWorker>("myWorker");
 
@@ -38,7 +38,7 @@ You can further specify details of the call by adding a dot after any of the abo
 
 For synchronous functions:
 
-```javascript
+```TypeScript
     // Always available:
     times: (count: number) => void;
 
@@ -56,7 +56,7 @@ For synchronous functions:
 
 Let's see a few example uses:
 
-```javascript
+```TypeScript
 test("", () => {
     const [worker, mockWorker] = deepMock<MyWorker>("myWorker");
 
@@ -71,13 +71,13 @@ test("", () => {
 
 Spy is comparatively simple. It only expects the call and then delegates it to the function you specified.
 
-```javascript
+```TypeScript
 spy: (fn: T) => MockzillaTimes;
 ```
 
 Let's see a few example uses:
 
-```javascript
+```TypeScript
 test("", () => {
     const [worker, mockWorker] = deepMock<MyWorker>("myWorker");
 
@@ -90,5 +90,31 @@ test("", () => {
     const spy = jest.fn();
     mockWorker.myFunction.spy(spy).times(2);
     //...
+})
+```
+
+## Getting mocked calls
+
+Sometimes you want to access the parameters of calls that have been made.
+
+```TypeScript
+getMockCalls: () => Array<Parameters<T>>;
+```
+
+Let's see an example use:
+
+```TypeScript
+test("", () => {
+    const [worker, mockWorker] = deepMock<MyWorker>("myWorker");
+
+    mockWorker.myFunction.expect.times(2);
+
+    worker.myFunction("foo", "bar");
+    worker.myFunction("hello", "world");
+
+    expect(mockWorker.myFunction.getMockCalls()).toEqual([
+        ["foo", "bar"],
+        ["hello", "world"],
+    ]);
 })
 ```

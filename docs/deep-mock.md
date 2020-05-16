@@ -6,7 +6,7 @@ You have a deeply nested API, like the browser object in web-extensions, which r
 
 `my-web-extension.ts`
 
-```javascript
+```TypeScript
 async function getActiveTabs() {
     return await browser.tabs.query({ active: true });
 }
@@ -24,7 +24,7 @@ By using `deepMock<T>(name, autoCleanup=true)` you can easily create mocks for t
 
 `my-web-extension.spec.ts`
 
-```javascript
+```TypeScript
 import type { Browser } from "webextension-polyfill-ts";
 import { deepMock, MockzillaDeep } from "mockzilla";
 
@@ -87,7 +87,7 @@ The mock builder auto-completes the public properties of the interface you suppl
 
 Additionally, each nested node has the following methods available:
 
-```javascript
+```TypeScript
 // With this, you can simple specify a value to use during the test.
 mock: (value: T) => void;
 // This allows using the property without actually specifying its value.

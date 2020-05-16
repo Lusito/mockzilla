@@ -57,6 +57,9 @@ const deepMockHandler: ProxyHandler<Target> = {
                 return { times: createTimes(target, expectation) };
             };
         }
+        if (prop === "getMockCalls") {
+            return () => target.rootNode.getCalls(target.path);
+        }
         if (prop === "mock") {
             return (value: any) => target.rootNode.setValue(target.path, value);
         }

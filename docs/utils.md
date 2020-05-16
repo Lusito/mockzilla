@@ -12,7 +12,7 @@ Use this if you want to verify, that a specified property will not get accessed 
 
 `some.spec.ts`
 
-```javascript
+```TypeScript
 import { denyPropertyAccess } from "mockzilla";
 
 test("modifiedDate will not be touched", () => {
@@ -29,7 +29,7 @@ test("modifiedDate will not be touched", () => {
 
 This can be used to call denyPropertyAccess on all properties except the ones in the whitelist:
 
-```javascript
+```TypeScript
 import { whitelistPropertyAccess } from "mockzilla";
 
 test("only tasks and showNotifiations may be touched", () => {

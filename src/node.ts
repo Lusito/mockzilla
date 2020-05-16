@@ -12,6 +12,7 @@ const ERROR = chalk.red("ERROR");
 interface ChildMethod {
     type: "method";
     value: (...args: any[]) => any;
+    calls: any[][];
     expectations: MockzillaExpectation[];
 }
 
@@ -134,6 +135,21 @@ export class MockzillaNode {
         if (expectation) child.expectations.push(expectation);
     }
 
+    public getCalls(key: string): any[][] {
+        const parts = key.split(".");
+        if (parts.length > 1) {
+            const [nestedKey, nestedConfig] = this.getNested(parts);
+            return nestedConfig.getCalls(nestedKey);
+        }
+
+        let child = this.getChild(key, "method");
+        if (!child) {
+            child = this.createMethod(key);
+            this.children[key] = child;
+        }
+        return child.calls;
+    }
+
     private getChild(key: string, type: ChildMethod["type"]): ChildMethod | null;
 
     private getChild(key: string, type: ChildValue["type"]): ChildValue | null;
@@ -151,9 +167,11 @@ export class MockzillaNode {
     private createMethod(key: string): ChildMethod {
         const name = chalk.dim(`${this.pathTo(key)}()`);
         const expectations: MockzillaExpectation[] = [];
+        const calls: any[][] = [];
         return {
             type: "method",
             value(...args: any[]) {
+                calls.push(args);
                 const expectation = expectations.shift();
                 if (!expectation) throw new MockzillaError(`${ERROR}: ${name} has been called unexpectedly!`);
                 if (expectation.spy) return expectation.spy(...args);
@@ -170,6 +188,7 @@ export class MockzillaNode {
                 if (expectation.throws) throw expectation.throws;
                 return expectation.returns;
             },
+            calls,
             expectations,
         };
     }
