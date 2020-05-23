@@ -25,7 +25,9 @@ export type MockzillaSyncFunction<T> = {
 };
 
 export type MockzillaFunction<T extends (...args: any[]) => any> = ReturnType<T> extends Promise<infer TP>
-    ? TP extends void
+    ? TP extends boolean // if we don't catch boolean manually, boolean promises will break
+        ? MockzillaAsyncFunction<(result: boolean) => MockzillaTimes>
+        : TP extends void
         ? MockzillaAsyncFunction<() => MockzillaTimes>
         : MockzillaAsyncFunction<(result: TP) => MockzillaTimes>
     : ReturnType<T> extends void
