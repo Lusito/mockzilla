@@ -49,7 +49,7 @@ export type MockzillaDeep<T> = { [TKey in keyof T]: MockzillaDeep<T[TKey]> } &
               expect: ((...args: Parameters<T>) => MockzillaFunction<T>) & MockzillaFunction<T>;
               getMockCalls: () => Array<Parameters<T>>;
           }
-        : {});
+        : unknown);
 
 export type MockzillaAssimilated<T> = T extends (...args: any[]) => any
     ? {
