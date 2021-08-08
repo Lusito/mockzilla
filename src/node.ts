@@ -34,7 +34,7 @@ export class MockzillaNode {
 
     private readonly proxy: any;
 
-    public readonly traps: ProxyHandler<any>;
+    public readonly traps: Required<ProxyHandler<any>>;
 
     private disabled = false;
 
@@ -64,6 +64,7 @@ export class MockzillaNode {
             construct: () => this.disabledCheckNotImplemented("construct", {}),
             getOwnPropertyDescriptor: () => this.disabledCheckNotImplemented("getOwnPropertyDescriptor", undefined),
             defineProperty: () => this.disabledCheckNotImplemented("defineProperty", false),
+            enumerate: () => this.disabledCheckNotImplemented("enumerate", []),
         };
         this.proxy = new Proxy({}, this.traps);
     }
