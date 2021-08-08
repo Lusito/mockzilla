@@ -34,38 +34,38 @@ export class MockzillaNode {
 
     private readonly proxy: any;
 
+    public readonly traps: ProxyHandler<any>;
+
     private disabled = false;
 
     private children: { [s: string]: ChildType } = {};
 
     public constructor(path: string) {
         this.path = path;
-        this.proxy = new Proxy(
-            {},
-            {
-                ownKeys: () => {
-                    this.disabledCheck("ownKeys");
-                    return Object.getOwnPropertyNames(this.children);
-                },
-                has: (target: any, prop: string) => this.disabledCheck(prop) || prop in this.children || false,
-                get: (target: any, prop: string) => {
-                    this.disabledCheck(prop);
-                    if (prop in this.children) return this.children[prop].value;
-                    this.notImplemented(prop);
-                },
-                // not to be called
-                apply: () => this.disabledCheckNotImplemented("apply", undefined),
-                getPrototypeOf: () => this.disabledCheckNotImplemented("getPrototypeOf", null),
-                setPrototypeOf: () => this.disabledCheckNotImplemented("setPrototypeOf", false),
-                isExtensible: () => this.disabledCheckNotImplemented("isExtensible", false),
-                preventExtensions: () => this.disabledCheckNotImplemented("preventExtensions", false),
-                set: () => this.disabledCheckNotImplemented("set", false),
-                deleteProperty: () => this.disabledCheckNotImplemented("deleteProperty", false),
-                construct: () => this.disabledCheckNotImplemented("construct", {}),
-                getOwnPropertyDescriptor: () => this.disabledCheckNotImplemented("getOwnPropertyDescriptor", undefined),
-                defineProperty: () => this.disabledCheckNotImplemented("defineProperty", false),
-            }
-        );
+        this.traps = {
+            ownKeys: () => {
+                this.disabledCheck("ownKeys");
+                return Object.getOwnPropertyNames(this.children);
+            },
+            has: (target: any, prop: string) => this.disabledCheck(prop) || prop in this.children || false,
+            get: (target: any, prop: string) => {
+                this.disabledCheck(prop);
+                if (prop in this.children) return this.children[prop].value;
+                this.notImplemented(prop);
+            },
+            // not to be called
+            apply: () => this.disabledCheckNotImplemented("apply", undefined),
+            getPrototypeOf: () => this.disabledCheckNotImplemented("getPrototypeOf", null),
+            setPrototypeOf: () => this.disabledCheckNotImplemented("setPrototypeOf", false),
+            isExtensible: () => this.disabledCheckNotImplemented("isExtensible", false),
+            preventExtensions: () => this.disabledCheckNotImplemented("preventExtensions", false),
+            set: () => this.disabledCheckNotImplemented("set", false),
+            deleteProperty: () => this.disabledCheckNotImplemented("deleteProperty", false),
+            construct: () => this.disabledCheckNotImplemented("construct", {}),
+            getOwnPropertyDescriptor: () => this.disabledCheckNotImplemented("getOwnPropertyDescriptor", undefined),
+            defineProperty: () => this.disabledCheckNotImplemented("defineProperty", false),
+        };
+        this.proxy = new Proxy({}, this.traps);
     }
 
     private pathTo = (key: string) => (key ? `${this.path}.${key}` : this.path);
