@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import diff from "jest-diff";
+import { diff } from "jest-diff";
 import { iterableEquality } from "expect/build/utils";
 import { equals } from "expect/build/jasmineUtils";
 
@@ -243,9 +243,7 @@ export class MockzillaNode {
                     const callName = `${this.pathTo(key)}()`;
                     const uniqueExpectations = expectations.filter((e, i, self) => self.indexOf(e) === i);
                     throw new MockzillaError(
-                        `Missing ${expectations.length} calls to ${chalk.dim(
-                            callName
-                        )}:\n${uniqueExpectations
+                        `Missing ${expectations.length} calls to ${chalk.dim(callName)}:\n${uniqueExpectations
                             .map((expectation) => colorizeStack(expectation.stack, true))
                             .join("\n")}`,
                         true

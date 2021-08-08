@@ -7,9 +7,9 @@ const VALID_STACK_LINE2 = /^\s*at (.+):([0-9]+):([0-9]+)$/;
 export function getCleanStack() {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const stack = new Error().stack!.split("\n");
-    const firstValidLine = stack.findIndex((line) => {
-        return !line.includes("mockzilla") && (VALID_STACK_LINE.test(line) || VALID_STACK_LINE2.test(line));
-    });
+    const firstValidLine = stack.findIndex(
+        (line) => !line.includes("mockzilla") && (VALID_STACK_LINE.test(line) || VALID_STACK_LINE2.test(line))
+    );
     if (firstValidLine !== -1) return `\n${stack.slice(firstValidLine).join("\n")}`;
     return "Error analyzing stack trace";
 }

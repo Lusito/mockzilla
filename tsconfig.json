@@ -8,6 +8,7 @@
     "module": "CommonJS",
     "lib": ["ES2017"],
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "target": "ES2017"
   },
   "include": ["./src/**/*"]
