@@ -41,8 +41,7 @@ export type MockzillaProperty<T> = {
     mockPath: string;
 };
 
-export type MockzillaDeep<T> = { [TKey in keyof T]: MockzillaDeep<T[TKey]> } &
-    MockzillaProperty<T> &
+export type MockzillaDeep<T> = { [TKey in keyof T]: MockzillaDeep<T[TKey]> } & MockzillaProperty<T> &
     (T extends (...args: any[]) => any
         ? {
               spy: (fn: T) => MockzillaTimes;
