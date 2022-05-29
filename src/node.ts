@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import { diff } from "jest-diff";
-import { iterableEquality } from "expect/build/utils";
-import { equals } from "expect/build/jasmineUtils";
+import { iterableEquality, equals } from "@jest/expect-utils";
 
 import { colorizeStack, MockzillaError } from "./error";
 import { MockzillaExpectation } from "./types";
