@@ -25,12 +25,12 @@ By using `deepMock<T>(name, autoCleanup=true)` you can easily create mocks for t
 `my-web-extension.spec.ts`
 
 ```TypeScript
-import type { Browser } from "webextension-polyfill-ts";
-import { deepMock, MockzillaDeep } from "mockzilla";
+import type { Browser } from "webextension-polyfill";
+import { deepMock } from "mockzilla";
 
 const [browser, mockBrowser, mockBrowserNode] = deepMock<Browser>("browser", false);
 
-jest.mock("webextension-polyfill-ts", () => ({ browser }));
+jest.mock("webextension-polyfill", () => browser);
 
 describe("Web-Extension Helpers", () => {
     beforeEach(() => mockBrowserNode.enable());
@@ -59,6 +59,8 @@ describe("Web-Extension Helpers", () => {
     });
 });
 ```
+
+**Note:** If you want to mock the webextension-polyfill, please take a look at [mockzilla-webextension](https://lusito.github.io/mockzilla-webextension/).
 
 ## More Details
 

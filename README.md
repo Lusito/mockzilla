@@ -32,13 +32,15 @@ Check out the [documentation page](https://lusito.github.io/mockzilla/) for exam
 
 This is an example of how a deep mock with mockzilla looks like:
 
+**Note:** If you want to mock the webextension-polyfill, please take a look at [mockzilla-webextension](https://lusito.github.io/mockzilla-webextension/).
+
 ```TypeScript
-import type { Browser } from "webextension-polyfill-ts";
-import { deepMock, MockzillaDeep } from "mockzilla";
+import type { Browser } from "webextension-polyfill";
+import { deepMock } from "mockzilla";
 
 const [browser, mockBrowser, mockBrowserNode] = deepMock<Browser>("browser", false);
 
-jest.mock("webextension-polyfill-ts", () => ({ browser }));
+jest.mock("webextension-polyfill", () => browser);
 
 describe("Web-Extension Helpers", () => {
     beforeEach(() => mockBrowserNode.enable());
